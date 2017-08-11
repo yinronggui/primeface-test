@@ -1,0 +1,53 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jstl/core"
+      xmlns:of="http://omnifaces.org/functions"
+      xmlns:o="http://omnifaces.org/ui"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+<h:body>
+    <h:form prependId="false">
+        <p:selectBooleanCheckbox value="#{testBean.allSelect}" itemLabel="全选/全不选">
+            <p:ajax update="dataList" listener="#{testBean.allSelectChange}"/>
+        </p:selectBooleanCheckbox>
+        <br/>
+
+        <p:panel header="订单列表">
+            <p:dataList value="#{testBean.orderList}" var="oneData" type="definition"
+                        id="dataList" paginator="true" paginatorPosition="bottom"
+                        rows="5"
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="6,12,16">
+                <div style="padding-left: 30px;">
+                    <p:panel header="#{oneData.name}">
+                        <p:selectBooleanCheckbox value="#{oneData.selected}" itemLabel="选择"/>
+                    </p:panel>
+                </div>
+            </p:dataList>
+        </p:panel>
+
+        <br/>
+        <center>
+            <p:commandButton value="提交" action="#{testBean.submit}" update="selectedPanel"/>
+        </center>
+        <br/>
+
+        <p:panel header="已选中的订单" id="selectedPanel">
+            <p:dataList value="#{testBean.selectedOrder}" var="oneData" emptyMessage="暂未选择任何订单"
+                        paginator="true" paginatorPosition="bottom"
+                        rows="5"
+                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="6,12,16">
+                <div style="padding-left: 30px;">
+                    <h3>#{oneData.name}</h3>
+                </div>
+            </p:dataList>
+        </p:panel>
+    </h:form>
+
+</h:body>
+</html>
